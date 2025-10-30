@@ -16,4 +16,11 @@ public class UserRepository {
 		var sql = "INSERT INTO MEMBER (loginId, password, name, birthday) VALUES (?, ?, ?, ?)";
 		jdbcTemplate.update(sql, user.getLoginId(), user.getPassword(), user.getName(), user.getBirthday());
 	}
+
+	public long selectMaxId(){
+		var sql = "SELECT MAX(id) FROM MEMBER";
+
+		var maxId = jdbcTemplate.queryForObject(sql, Integer.class);
+		return maxId == null ? 0L : maxId;
+	}
 }
