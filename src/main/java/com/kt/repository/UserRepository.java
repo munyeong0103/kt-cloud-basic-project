@@ -30,4 +30,10 @@ public class UserRepository {
 
 		return Boolean.TRUE.equals(jdbcTemplate.queryForObject(sql, Boolean.class, loginId));
 	}
+
+	public void updatePassword(int id, String password) {
+		var sql = "UPDATE MEMBER SET password = ? WHERE id = ?";
+
+		jdbcTemplate.update(sql, password, id);
+	}
 }
