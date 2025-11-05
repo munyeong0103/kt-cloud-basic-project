@@ -46,7 +46,7 @@ public class AdminUserController {
 	@PutMapping("/{id}")
 	@ResponseStatus(HttpStatus.OK)
 	public void update(@PathVariable Long id, @RequestBody @Valid UserUpdateRequest request) {
-		//service
+		userService.update(id, request.name(), request.email(), request.mobile());
 	}
 	// 유저 삭제
 	// 유저 비밀번호 초기화
