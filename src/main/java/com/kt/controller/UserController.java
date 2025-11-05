@@ -1,8 +1,11 @@
 package com.kt.controller;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -18,12 +21,14 @@ import lombok.RequiredArgsConstructor;
 @Tag(name = "유저", description = "유저 관련 API")
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/users")
+@ApiResponses(value = {
+	@ApiResponse(responseCode = "400", description = "유효성 검사 실패"),
+	@ApiResponse(responseCode = "500", description = "서버 에러 - 백엔드에 바로 문의 바랍니다.")
+})
 public class UserController {
 	private final UserService userService;
 
-	@ApiResponses(value = {
-		@ApiResponse(responseCode = "400", description = "유효성 검사 실패"),
-		@ApiResponse(responseCode = "500", description = "서버 에러 - 백엔드에 바로 문의 바랍니다.")})
 	@PostMapping("/users")
 	@ResponseStatus(HttpStatus.CREATED)
 	//loginId, password, name, birthday
@@ -31,5 +36,11 @@ public class UserController {
 	//@RequestBody를 보고 jackson object mapper가 동작해서 json을 읽어서 dto로 변환
 	public void create(@Valid @RequestBody UserCreateRequest request) {
 		userService.create(request);
+	}
+
+	@GetMapping("/duplicate-login-id")
+	@ResponseStatus(HttpStatus.OK)
+	public Boolean isDuplicateLoginId(@RequestParam String loginId) {
+		return userService.isDuplicateLoginId(loginId);
 	}
 }
