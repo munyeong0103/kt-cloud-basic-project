@@ -24,4 +24,10 @@ public class UserRepository {
 		var maxId = jdbcTemplate.queryForObject(sql, Integer.class);
 		return maxId == null ? 0L : maxId;
 	}
+
+	public boolean existsByLoginId(String loginId) {
+		var sql = "SELECT EXISTS (SELECT id FROM MEMBER WHERE loginId = ?)";
+
+		return Boolean.TRUE.equals(jdbcTemplate.queryForObject(sql, Boolean.class, loginId));
+	}
 }
