@@ -15,16 +15,15 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
-@ApiResponses(value = {
-	@ApiResponse(responseCode = "400", description = "유효성 검사"),
-	@ApiResponse(responseCode = "500", description = "서버 에러"),
-})
-@Tag(name = "유저")
+@Tag(name = "유저", description = "유저 관련 API")
 @RestController
 @RequiredArgsConstructor
 public class UserController {
 	private final UserService userService;
 
+	@ApiResponses(value = {
+		@ApiResponse(responseCode = "400", description = "유효성 검사 실패"),
+		@ApiResponse(responseCode = "500", description = "서버 에러 - 백엔드에 바로 문의 바랍니다.")})
 	@PostMapping("/users")
 	@ResponseStatus(HttpStatus.CREATED)
 	//loginId, password, name, birthday
