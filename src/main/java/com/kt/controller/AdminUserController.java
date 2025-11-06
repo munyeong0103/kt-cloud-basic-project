@@ -1,5 +1,7 @@
 package com.kt.controller;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,12 +29,12 @@ public class AdminUserController {
 	// 유저 리스트 조회
 	@GetMapping
 	@ResponseStatus(HttpStatus.OK)
-	public CustomPage search(
+	public Page<User> search(
 		@RequestParam(defaultValue = "1") int page,
 		@RequestParam(defaultValue = "10") int size,
 		@RequestParam(required = false) String keyword
 	) {
-		return userService.search(page, size, keyword);
+		return userService.search(PageRequest.of(page-1, size), keyword);
 	}
 
 	// 유저 상세 조회
