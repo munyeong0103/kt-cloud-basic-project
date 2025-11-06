@@ -49,7 +49,7 @@ public class UserController {
 
 	@PutMapping("/{id}/update-password")
 	@ResponseStatus(HttpStatus.OK)
-	public void updatePassword(@PathVariable Integer id, @RequestBody @Valid UserUpdatePasswordRequest request) {
+	public void updatePassword(@PathVariable Long id, @RequestBody @Valid UserUpdatePasswordRequest request) {
 		userService.changePassword(id, request.oldPassword(), request.newPassword());
 	}
 }
