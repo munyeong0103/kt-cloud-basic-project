@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.kt.domain.User;
-import com.kt.dto.CustomPage;
 import com.kt.dto.UserCreateRequest;
 import com.kt.repository.UserJDBCRepository;
 import com.kt.repository.UserRepository;
