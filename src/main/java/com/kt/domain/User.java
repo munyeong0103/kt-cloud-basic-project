@@ -3,8 +3,9 @@ package com.kt.domain;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -22,17 +23,15 @@ public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	@Column(name = "LOGINID")
 	private String loginId;
 	private String password;
 	private String name;
 	private String email;
 	private String mobile;
+	@Enumerated(EnumType.STRING)
 	private Gender gender;
 	private LocalDate birthday;
-	@Column(name = "CREATEDAT")
 	private LocalDateTime createdAt;
-	@Column(name = "UPDATEDAT")
 	private LocalDateTime updatedAt;
 
 	public User(String loginId, String password, String name, String email, String mobile, Gender gender,
