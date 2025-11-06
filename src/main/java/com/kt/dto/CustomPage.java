@@ -2,7 +2,7 @@ package com.kt.dto;
 
 import java.util.List;
 
-import com.kt.domain.User;
+import com.kt.domain.user.User;
 
 public record CustomPage(
 	List<User> users,
