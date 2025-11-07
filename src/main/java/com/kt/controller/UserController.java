@@ -41,11 +41,11 @@ public class UserController {
 		userService.create(request);
 	}
 
-	@GetMapping("/duplicate-login-id")
-	@ResponseStatus(HttpStatus.OK)
-	public Boolean isDuplicateLoginId(@RequestParam String loginId) {
-		return userService.isDuplicateLoginId(loginId);
-	}
+	// @GetMapping("/duplicate-login-id")
+	// @ResponseStatus(HttpStatus.OK)
+	// public Boolean isDuplicateLoginId(@RequestParam String loginId) {
+	// 	return userService.isDuplicateLoginId(loginId);
+	// }
 
 	@PutMapping("/{id}/update-password")
 	@ResponseStatus(HttpStatus.OK)

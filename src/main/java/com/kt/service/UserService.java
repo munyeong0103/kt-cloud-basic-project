@@ -38,9 +38,9 @@ public class UserService {
 		userRepository.save(newUser);
 	}
 
-	public boolean isDuplicateLoginId(String loginId) {
-		return userJDBCRepository.existsByLoginId(loginId);
-	}
+	// public boolean isDuplicateLoginId(String loginId) {
+	// 	return userJDBCRepository.existsByLoginId(loginId);
+	// }
 
 	public void changePassword(Long id, String oldPassword, String password) {
 		User user = userRepository.findById(id)
