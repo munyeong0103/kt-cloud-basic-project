@@ -7,9 +7,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.kt.common.ErrorCode;
+import com.kt.common.Preconditions;
 import com.kt.domain.user.User;
-import com.kt.dto.UserCreateRequest;
-import com.kt.repository.UserJDBCRepository;
+import com.kt.dto.user.UserRequest;
 import com.kt.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -18,11 +19,9 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Transactional
 public class UserService {
-	private final UserJDBCRepository userJDBCRepository;
 	private final UserRepository userRepository;
 
-	public void create(UserCreateRequest request) {
-
+	public void create(UserRequest.Create request) {
 		var newUser = new User(
 			request.loginId(),
 			request.password(),
@@ -38,38 +37,35 @@ public class UserService {
 		userRepository.save(newUser);
 	}
 
-	// public boolean isDuplicateLoginId(String loginId) {
-	// 	return userJDBCRepository.existsByLoginId(loginId);
-	// }
+	public boolean isDuplicateLoginId(String loginId) {
+		return userRepository.existsByLoginId(loginId);
+	}
 
 	public void changePassword(Long id, String oldPassword, String password) {
-		User user = userRepository.findById(id)
-			.orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
+		var user = userRepository.findByIdOrThrow(id, ErrorCode.NOT_FOUND_USER);
 
-		if(!user.getPassword().equals(oldPassword)) {
-			throw new IllegalArgumentException("기존 비밀번호가 일치하지 않습니다.");
-		}
-
-		if(oldPassword.equals(password)) {
-			throw new IllegalArgumentException("기존 비밀번호와 동일한 비밀번호로 변경할 수 없습니다.");
-		}
+		Preconditions.validate(!user.getPassword().equals(oldPassword), ErrorCode.DOES_NOT_MATCH_OLD_PASSWORD);
+		Preconditions.validate(!oldPassword.equals(password), ErrorCode.CAN_NOT_ALLOWED_SAME_PASSWORD);
 
 		user.changePassword(password);
 	}
 
+	// Pageable 인터페이스
 	public Page<User> search(Pageable pageable, String keyword) {
-		return userRepository.findAllByNameContaining(pageable, keyword);
+		return userRepository.findAllByNameContaining(keyword, pageable);
 	}
 
 	public User detail(Long id) {
-		return userRepository.findById(id)
-			.orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
+		return userRepository.findByIdOrThrow(id, ErrorCode.NOT_FOUND_USER);
 	}
 
 	public void update(Long id, String name, String email, String mobile) {
-		var user = userRepository.findById(id)
-			.orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
+		var user = userRepository.findByIdOrThrow(id, ErrorCode.NOT_FOUND_USER);
 
-		user.update(id, name, email, mobile);
+		user.update(name, email, mobile);
+	}
+
+	public void delete(Long id) {
+		userRepository.deleteById(id);
 	}
 }
