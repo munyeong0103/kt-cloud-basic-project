@@ -1,10 +1,15 @@
 package com.kt.domain.product;
 
-public enum ProductStatus {
-	ACTIVE("판매중"),
-	SOLD_OUT("품절"),
-	INACTIVE("판매중지");
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
-	ProductStatus(String value) {
-	}
+@Getter
+@RequiredArgsConstructor
+public enum ProductStatus {
+	ACTIVATED("판매중"),
+	SOLD_OUT("품절"),
+	IN_ACTIVATED("판매중지"),
+	DELETED("삭제");
+
+	private final String description;
 }
