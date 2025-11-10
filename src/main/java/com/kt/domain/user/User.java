@@ -27,15 +27,20 @@ public class User extends BaseEntity {
 	private String name;
 	private String email;
 	private String mobile;
+
 	@Enumerated(EnumType.STRING)
 	private Gender gender;
+
+	@Enumerated(EnumType.STRING)
+	private Role role;
+
 	private LocalDate birthday;
 
 	@OneToMany(mappedBy = "user")
 	private List<Order> orders = new ArrayList<>();
 
 	public User(String loginId, String password, String name, String email, String mobile, Gender gender,
-		LocalDate birthday, LocalDateTime createdAt, LocalDateTime updatedAt) {
+		LocalDate birthday, LocalDateTime createdAt, LocalDateTime updatedAt, Role role) {
 		this.loginId = loginId;
 		this.password = password;
 		this.name = name;
@@ -45,6 +50,39 @@ public class User extends BaseEntity {
 		this.birthday = birthday;
 		this.createdAt = createdAt;
 		this.updatedAt = updatedAt;
+		this.role = role;
+	}
+
+	public static User normalUser(String loginId, String password, String name, String email, String mobile, Gender gender,
+		LocalDate birthday, LocalDateTime createdAt, LocalDateTime updatedAt) {
+		return new User(
+			loginId,
+			password,
+			name,
+			email,
+			mobile,
+			gender,
+			birthday,
+			createdAt,
+			updatedAt,
+			Role.USER
+		);
+	}
+
+	public static User admin(String loginId, String password, String name, String email, String mobile, Gender gender,
+		LocalDate birthday, LocalDateTime createdAt, LocalDateTime updatedAt) {
+		return new User(
+			loginId,
+			password,
+			name,
+			email,
+			mobile,
+			gender,
+			birthday,
+			createdAt,
+			updatedAt,
+			Role.ADMIN
+		);
 	}
 
 	public void changePassword(String password) {
