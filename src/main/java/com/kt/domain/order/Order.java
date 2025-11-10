@@ -23,9 +23,7 @@ import lombok.Getter;
 @Entity
 @Table(name = "orders")
 public class Order extends BaseEntity {
-	private String receiverName;
-	private String receiverAddress;
-	private String receiverMobile;
+	private Receiver receiver;
 	@Enumerated(EnumType.STRING)
 	private OrderStatus orderStatus;
 	private LocalDateTime deliveredAt;

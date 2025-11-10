@@ -16,12 +16,11 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 @Getter
-@NoArgsConstructor
-@AllArgsConstructor
 @Entity
-@Table(name = "MEMBER")
+@RequiredArgsConstructor
 public class User extends BaseEntity {
 	private String loginId;
 	private String password;
@@ -31,6 +30,9 @@ public class User extends BaseEntity {
 	@Enumerated(EnumType.STRING)
 	private Gender gender;
 	private LocalDate birthday;
+
+	@OneToMany(mappedBy = "user")
+	private List<Order> orders = new ArrayList<>();
 
 	public User(String loginId, String password, String name, String email, String mobile, Gender gender,
 		LocalDate birthday, LocalDateTime createdAt, LocalDateTime updatedAt) {
@@ -45,12 +47,11 @@ public class User extends BaseEntity {
 		this.updatedAt = updatedAt;
 	}
 
-	public void changePassword(String newPassword) {
-		this.password = newPassword;
+	public void changePassword(String password) {
+		this.password = password;
 	}
 
-	public void update(Long id, String name, String email, String mobile) {
-		this.id = id;
+	public void update(String name, String email, String mobile) {
 		this.name = name;
 		this.email = email;
 		this.mobile = mobile;
