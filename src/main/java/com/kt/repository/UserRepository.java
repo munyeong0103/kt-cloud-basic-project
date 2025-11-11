@@ -15,7 +15,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
 	@Query("""
 	SELECT exists (SELECT u FROM User u WHERE u.loginId = ?1)
 """)
-
 	Boolean existsByLoginIdJPQL(String loginId);
 
 	Page<User> findAllByNameContaining(String name, Pageable pageable);
