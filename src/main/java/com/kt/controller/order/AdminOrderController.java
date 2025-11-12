@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.kt.common.Paging;
 import com.kt.dto.order.OrderResponse;
-import com.kt.repository.OrderRepository;
+import com.kt.repository.order.OrderRepository;
 
 import io.swagger.v3.oas.annotations.Parameter;
 import lombok.RequiredArgsConstructor;

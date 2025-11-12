@@ -1,4 +1,4 @@
-package com.kt.repository;
+package com.kt.repository.order;
 
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.data.domain.Page;
@@ -6,11 +6,13 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
-import com.kt.domain.order.Order;
+import com.kt.domain.order.QOrder;
+import com.kt.domain.orderproduct.QOrderProduct;
+import com.kt.domain.product.QProduct;
 import com.kt.dto.order.OrderResponse;
+import com.kt.dto.order.QOrderResponse_Search;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.dsl.BooleanExpression;
-import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import lombok.RequiredArgsConstructor;
@@ -20,7 +22,7 @@ import lombok.RequiredArgsConstructor;
 public class OrderRepositoryCustomImpl implements OrderRepositoryCustom {
 	private final JPAQueryFactory jpaQueryFactory;
 	private final QOrder order = QOrder.order;
-	private final QOrderProduct orderProduct = QOrderProduct.order;
+	private final QOrderProduct orderProduct = QOrderProduct.orderProduct;
 	private final QProduct product = QProduct.product;
 
 	@Override
@@ -39,9 +41,8 @@ public class OrderRepositoryCustomImpl implements OrderRepositoryCustom {
 				product.name,
 				orderProduct.quantity,
 				product.price.multiply(orderProduct.quantity),
-				Expressions.asNumber(0L),
-				order.status,
-				order.product
+				order.orderStatus,
+				order.createdAt
 			))
 			.from(order)
 			.join(orderProduct).on(orderProduct.order.id.eq(order.id))
