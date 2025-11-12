@@ -1,4 +1,4 @@
-package com.kt.repository;
+package com.kt.repository.order;
 
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.data.domain.Page;
@@ -6,7 +6,6 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
-import com.kt.domain.order.Order;
 import com.kt.dto.order.OrderResponse;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.dsl.BooleanExpression;
