@@ -21,4 +21,10 @@ public class OrderProduct extends BaseEntity {
 	@ManyToOne
 	@JoinColumn(name = "product_id")
 	private Product product;
+
+	public OrderProduct(Order order, Product product,  Long quantity) {
+		this.order = order;
+		this.product = product;
+		this.quantity = quantity;
+	}
 }

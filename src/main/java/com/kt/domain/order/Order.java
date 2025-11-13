@@ -6,9 +6,9 @@ import java.util.List;
 
 import com.kt.common.BaseEntity;
 import com.kt.domain.orderproduct.OrderProduct;
-import com.kt.domain.product.Product;
 import com.kt.domain.user.User;
 
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -18,14 +18,19 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 @Getter
 @Entity
 @Table(name = "orders")
+@RequiredArgsConstructor
 public class Order extends BaseEntity {
+	@Embedded
 	private Receiver receiver;
+
 	@Enumerated(EnumType.STRING)
 	private OrderStatus orderStatus;
+
 	private LocalDateTime deliveredAt;
 
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -34,4 +39,22 @@ public class Order extends BaseEntity {
 
 	@OneToMany(mappedBy = "order")
 	private List<OrderProduct> orderProducts = new ArrayList<>();
+
+	private Order(Receiver receiver, User user) {
+		this.receiver = receiver;
+		this.user = user;
+		this.deliveredAt = LocalDateTime.now().plusDays(3);
+		this.orderStatus = OrderStatus.PENDING;
+	}
+
+	public static Order create(Receiver receiver, User user) {
+		return new Order(
+			receiver,
+			user
+		);
+	}
+
+	public void mapToOrderProduct(OrderProduct orderProduct) {
+		this.orderProducts.add(orderProduct);
+	}
 }

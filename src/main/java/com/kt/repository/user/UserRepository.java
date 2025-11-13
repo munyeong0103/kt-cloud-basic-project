@@ -1,4 +1,4 @@
-package com.kt.repository;
+package com.kt.repository.user;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,7 +15,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
 	@Query("""
 	SELECT exists (SELECT u FROM User u WHERE u.loginId = ?1)
 """)
-
 	Boolean existsByLoginIdJPQL(String loginId);
 
 	Page<User> findAllByNameContaining(String name, Pageable pageable);
