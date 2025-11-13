@@ -22,7 +22,7 @@ public class UserService {
 	private final UserRepository userRepository;
 
 	public void create(UserRequest.Create request) {
-		var newUser = new User(
+		var newUser = User.normalUser(
 			request.loginId(),
 			request.password(),
 			request.name(),

@@ -8,9 +8,11 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 @Getter
 @Entity
+@RequiredArgsConstructor
 public class OrderProduct extends BaseEntity {
 	private Long quantity;
 
